@@ -187,6 +187,10 @@ def _config_logic(napalm_device,
             __context__['retcode'] = 1
         return loaded_result
 
+    if not test and not commit_config:
+        if not len(loaded_result.get('diff', '')) > 0:
+            loaded_result['already_configured'] = True
+
     if not test and commit_config:
         # if not in testing mode and trying to commit
         if len(loaded_result.get('diff', '')) > 0:
